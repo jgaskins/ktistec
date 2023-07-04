@@ -2,6 +2,8 @@ require "uuid"
 
 require "../framework/controller"
 
+Kemal.config.public_folder = ENV.fetch("UPLOADS_DIR", "./public")
+
 class UploadsController
   include Ktistec::Controller
 
@@ -70,5 +72,11 @@ class UploadsController
     else
       not_found
     end
+  end
+end
+
+class Kemal::StaticFileHandler
+  private def modification_time(file_path)
+    File.info(file_path).modification_time
   end
 end
